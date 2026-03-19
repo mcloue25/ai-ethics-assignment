@@ -17,7 +17,7 @@ s.add(Implies(suspected_lvo, clinician_alerted))
 # if an alert is generated it must lead to review by an authorised clinician:  ∀x(∃c Alerted(c,x) → ∃c(Authorized(c) ∧ ReviewsDiagnostic(c,x))))
 s.add(Implies(clinician_alerted, And(clinician_authorized, clinician_reviews)))
 
-# NOTE Scenario - patient is flagged as suspected LVO
+# NOTE - Patient is flagged as suspected LVO
 s.add(suspected_lvo == True)
 
 result = s.check()
