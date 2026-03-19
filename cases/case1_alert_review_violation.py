@@ -19,9 +19,11 @@ s.add(Implies(clinician_alerted, And(clinician_authorized, clinician_reviews)))
 
 # NOTE Scenario - patient is flagged as suspected LVO
 s.add(suspected_lvo == True)
+# Violation scenario - force the review to be absent to test for UNSAT
+s.add(clinician_reviews == False)
 
 result = s.check()
-print("Case 1 result:", result)
+print("Case 1 violation result:", result)
 
 if result == sat:
     print(s.model())
