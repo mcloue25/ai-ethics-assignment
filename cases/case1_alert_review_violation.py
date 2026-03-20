@@ -7,23 +7,34 @@ suspected_lvo = Bool("suspected_lvo")
 clinician_alerted = Bool("clinician_alerted")
 clinician_authorized = Bool("clinician_authorized")
 clinician_reviews = Bool("clinician_reviews")
+system_failure = Bool('system_failure')
 
-# Assume the clinician who receives the alert is authorised
-s.add(clinician_authorized == True)
-
-# NOTE - Rules implementation
+# Ethical duties
 # if a patient is flagged as suspected LVO an alert must be generated: ∀x(SuspectedLVO(x) → ∃c(Authorized(c) ∧ Alerted(c,x))))
-s.add(Implies(suspected_lvo, clinician_alerted))
+s.assert_and_track(
+    Implies(suspected_lvo, And(clinician_authorized, clinician_alerted)),
+    "Duty_Alert"
+)
+
 # if an alert is generated it must lead to review by an authorised clinician:  ∀x(∃c Alerted(c,x) → ∃c(Authorized(c) ∧ ReviewsDiagnostic(c,x))))
-s.add(Implies(clinician_alerted, And(clinician_authorized, clinician_reviews)))
+s.assert_and_track(
+    Implies(clinician_alerted, And(clinician_authorized, clinician_reviews)),
+    "Duty_Review"
+)
 
-# NOTE - Patient is flagged as suspected LVO
+# if system fails, alert can not be delivered
+s.assert_and_track(
+    Implies(system_failure, Not(clinician_alerted)),
+    "System_Failure"
+)
+
+# Patient has suspected LVO and system failure
 s.add(suspected_lvo == True)
-# Violation scenario - force the review to be absent to test for UNSAT
-s.add(clinician_reviews == False)
+s.add(system_failure == True)
 
-result = s.check()
-print("Case 1 violation result:", result)
-
-if result == sat:
+if s.check() == sat:
+    print("SAT no conflict")
     print(s.model())
+else:
+    print("UNSAT: duty cannot be met when system failure")
+    print("Unsat core: ", s.unsat_core())

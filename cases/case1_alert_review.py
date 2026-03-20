@@ -8,16 +8,13 @@ clinician_alerted = Bool("clinician_alerted")
 clinician_authorized = Bool("clinician_authorized")
 clinician_reviews = Bool("clinician_reviews")
 
-# Assume the clinician who receives the alert is authorised
-s.add(clinician_authorized == True)
-
-# NOTE - Rules implementation
+# Rules implementation
 # if a patient is flagged as suspected LVO an alert must be generated: ∀x(SuspectedLVO(x) → ∃c(Authorized(c) ∧ Alerted(c,x))))
-s.add(Implies(suspected_lvo, clinician_alerted))
+s.add(Implies(suspected_lvo, And(clinician_authorized, clinician_alerted)))
 # if an alert is generated it must lead to review by an authorised clinician:  ∀x(∃c Alerted(c,x) → ∃c(Authorized(c) ∧ ReviewsDiagnostic(c,x))))
 s.add(Implies(clinician_alerted, And(clinician_authorized, clinician_reviews)))
 
-# NOTE - Patient is flagged as suspected LVO
+# Patient is flagged as suspected LVO
 s.add(suspected_lvo == True)
 
 result = s.check()
