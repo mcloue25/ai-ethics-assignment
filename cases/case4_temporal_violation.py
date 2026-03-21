@@ -2,20 +2,30 @@ from z3 import *
 
 T = 4
 
-# Variables for a simplified bounded time workflow
-Review = [Bool(f"Review_{t}") for t in range(T)]
+# Variables for a bounded time workflow
+Alerted = [Bool(f"Alerted_{t}") for t in range(T)]
+Reviewed = [Bool(f"Reviewed_{t}") for t in range(T)]
+Overloaded = [Bool(f"Overloaded_{t}") for t in range(T)]
 
 s = Solver()
 
-# NOTE - No review ever occurs within the time horizon
+# An alert is generated at time 0
+s.add(Alerted[0] == True)
+
+# If overloaded the clinician cannot review
 for t in range(T):
-    s.add(Review[t] == False)
+    s.add(Implies(Overloaded[t], Not(Reviewed[t])))
 
-# There must be at least one review at some point in the time horizon
-s.add(Or([Review[t] for t in range(T)]))
+# Clinician overloaded at every step
+for t in range(T):
+    s.add(Overloaded[t] == True)
 
-result = s.check()
-print("Case 4 violation result:", result)
+# Ethical req - must be reviewed at some point: G(Alerted(x) → F(Reviewed(x)))
+s.assert_and_track(Or([Reviewed[t] for t in range(T)]),"Must_Eventually_Review")
 
-if result == sat:
+if s.check() == sat:
+    print("SAT")
     print(s.model())
+else:
+    print("UNSAT - Clinician overload prevents review")
+    print("Unsat core:", s.unsat_core())

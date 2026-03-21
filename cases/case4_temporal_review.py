@@ -3,23 +3,25 @@ from z3 import *
 T = 4
 
 # Variables for a bounded time workflow
-Alert = [Bool(f"Alert_{t}") for t in range(T)]
-Review = [Bool(f"Review_{t}") for t in range(T)]
+Alerted = [Bool(f"Alerted_{t}") for t in range(T)]
+Reviewed = [Bool(f"Reviewed_{t}") for t in range(T)]
+Overloaded = [Bool(f"Overloaded_{t}") for t in range(T)]
 
 s = Solver()
 
-# NOTE - An alert is generated at time 0
-s.add(Alert[0] == True)
+# An alert is generated at time 0
+s.add(Alerted[0] == True)
 
-# No new alerts are generated after time 0
-for t in range(1, T):
-    s.add(Alert[t] == False)
+# Must be reviewed at some point: G(Alerted(x) → F(Reviewed(x)))
+s.add(Or([Reviewed[t] for t in range(T)]))
 
-# NOTE - Temporal ethical rule: G(Alert(x) → F(Review(x)))
-s.add(Or([Review[t] for t in range(T)]))
+# Clinician cannot review if overloaded
+for t in range(T):
+    s.add(Implies(Overloaded[t], Not(Reviewed[t])))
 
-result = s.check()
-print("Case 4 result:", result)
 
-if result == sat:
+if s.check() == sat:
+    print("SAT - Clinician is not overloaded, so alert is reviewed")
     print(s.model())
+else:
+    print("UNSAT")

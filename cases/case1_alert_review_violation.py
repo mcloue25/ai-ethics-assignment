@@ -22,13 +22,13 @@ s.assert_and_track(
     "Duty_Review"
 )
 
-# if system fails, alert can not be delivered
+# if system/infrastructure failure, alert can not be delivered
 s.assert_and_track(
     Implies(system_failure, Not(clinician_alerted)),
     "System_Failure"
 )
 
-# Patient has suspected LVO and system failure
+# Patient has suspected LVO and there is system failure
 s.add(suspected_lvo == True)
 s.add(system_failure == True)
 
