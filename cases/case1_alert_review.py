@@ -3,22 +3,23 @@ from z3 import *
 s = Solver()
 
 # Variables for a single patient single clinician scenario
-suspected_lvo = Bool("suspected_lvo")
-clinician_alerted = Bool("clinician_alerted")
-clinician_authorized = Bool("clinician_authorized")
-clinician_reviews = Bool("clinician_reviews")
+Suspected_LVO = Bool("Suspected_LVO")
+Alerted = Bool("Alerted")  # clinician alerted
+Authorised = Bool("Authorised")  # clinician authorised
+Reviewed = Bool("Reviewed")  # clinician reviewed the diagnostic image
 
 # Rules implementation
 # if a patient is flagged as suspected LVO an alert must be generated: ∀x(SuspectedLVO(x) → ∃c(Authorized(c) ∧ Alerted(c,x))))
-s.add(Implies(suspected_lvo, And(clinician_authorized, clinician_alerted)))
+s.add(Implies(Suspected_LVO, And(Authorised, Alerted)))
 # if an alert is generated it must lead to review by an authorised clinician:  ∀x(∃c Alerted(c,x) → ∃c(Authorized(c) ∧ ReviewsDiagnostic(c,x))))
-s.add(Implies(clinician_alerted, And(clinician_authorized, clinician_reviews)))
+s.add(Implies(Alerted, And(Authorised, Reviewed)))
 
 # Patient is flagged as suspected LVO
-s.add(suspected_lvo == True)
+s.add(Suspected_LVO == True)
 
-result = s.check()
-print("Case 1 result:", result)
-
-if result == sat:
+if s.check() == sat:
+    print("SAT no conflict")
     print(s.model())
+else:
+    print("UNSAT: duty cannot be met")
+    print("Unsat core: ", s.unsat_core())
