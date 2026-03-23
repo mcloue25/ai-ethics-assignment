@@ -4,10 +4,10 @@ s = Solver()
 
 # Variables for a single patient single clinician scenario
 Suspected_LVO = Bool("Suspected_LVO")
-Alerted = Bool("Alerted")
-Authorised = Bool("Authorised")
-Reviewed = Bool("Reviewed")
-System_Failure = Bool('System_Failure')
+Alerted = Bool("Alerted")  # clinician alerted
+Authorised = Bool("Authorised")  # clinician authorised
+Reviewed = Bool("Reviewed")  # clinician reviewed the diagnostic image
+System_Failure = Bool('System_Failure')  # system or infrastructure failure
 
 # Ethical duties
 # if a patient is flagged as suspected LVO an alert must be generated: ∀x(SuspectedLVO(x) → ∃c(Authorized(c) ∧ Alerted(c,x))))
@@ -16,7 +16,7 @@ s.assert_and_track(
     "Duty_Alert"
 )
 
-# if an alert is generated it must lead to review by an authorised clinician:  ∀x(∃c Alerted(c,x) → ∃c(Authorized(c) ∧ ReviewsDiagnostic(c,x))))
+# if an alert is generated it must lead to review by an authorised clinician:  ∀x(∃c Alerted(c,x) → ∃c(Authorized(c) ∧ ReviewedDiagnostic(c,x))))
 s.assert_and_track(
     Implies(Alerted, And(Authorised, Reviewed)),
     "Duty_Review"

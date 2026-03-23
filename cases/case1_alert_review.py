@@ -11,7 +11,7 @@ Reviewed = Bool("Reviewed")  # clinician reviewed the diagnostic image
 # Rules implementation
 # if a patient is flagged as suspected LVO an alert must be generated: ∀x(SuspectedLVO(x) → ∃c(Authorized(c) ∧ Alerted(c,x))))
 s.add(Implies(Suspected_LVO, And(Authorised, Alerted)))
-# if an alert is generated it must lead to review by an authorised clinician:  ∀x(∃c Alerted(c,x) → ∃c(Authorized(c) ∧ ReviewsDiagnostic(c,x))))
+# if an alert is generated it must lead to review by an authorised clinician:  ∀x(∃c Alerted(c,x) → ∃c(Authorized(c) ∧ ReviewedDiagnostic(c,x))))
 s.add(Implies(Alerted, And(Authorised, Reviewed)))
 
 # Patient is flagged as suspected LVO
