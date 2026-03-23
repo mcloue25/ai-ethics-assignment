@@ -51,7 +51,7 @@ s2.add(LVO_B == True)
 # Constraint: only one team
 s2.add(Not(And(Escalate_A, Escalate_B)))
 
-# Patient A has higher expected benefit
+# Patient B has higher expected benefit
 s2.add(Benefit_A == 50)
 s2.add(Benefit_B == 100)
 
