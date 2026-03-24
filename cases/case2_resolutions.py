@@ -4,8 +4,8 @@ from z3 import *
 s = Solver()
 
 # Variables for a two patient one team scenario
-LVO_A = Bool("LVO_A")
-LVO_B = Bool("LVO_B")
+LVO_A = Bool("Suspected_LVO_A")
+LVO_B = Bool("Suspected_LVO_B")
 Escalate_A = Bool("Escalate_A")
 Escalate_B = Bool("Escalate_B")
 
