@@ -17,6 +17,7 @@ FalseNegative = Bool("FalseNegative")
 # Clinical pathway assumption:
 # if AI flags suspected LVO, the patient is escalated for urgent review
 s.add(Implies(SuspectedLVO, Escalated))
+s.add(Implies(Not(SuspectedLVO), Not(Escalated)))
 
 # Define False Positive and False Negatives
 s.add(FalsePositive == And(SuspectedLVO, Not(LVO)))
