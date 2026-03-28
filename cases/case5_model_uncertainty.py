@@ -14,17 +14,17 @@ Escalated = Bool("Escalated")
 FalsePositive = Bool("FalsePositive")
 FalseNegative = Bool("FalseNegative")
 
-# Clinical pathway assumption:
-# if AI flags suspected LVO, the patient is escalated for urgent review
+# NOTE - Clinical pathway assumption:
+# If AI flags suspected LVO, the patient is escalated for urgent review
 s.add(Implies(SuspectedLVO, Escalated))
 s.add(Implies(Not(SuspectedLVO), Not(Escalated)))
 
-# Define False Positive and False Negatives
+# False Positive & False Negatives
 s.add(FalsePositive == And(SuspectedLVO, Not(LVO)))
 s.add(FalseNegative == And(Not(SuspectedLVO), LVO))
 
-# Ethical requirement:
-# if a patient actually has an LVO, they should be escalated for urgent review
+# NOTE - Ethical requirement:
+# If a patient actually has an LVO, they should be escalated for urgent review
 s.assert_and_track(Implies(LVO, Escalated), "Duty_Escalate_True_LVO")
 
 # Violation scenario: patient has LVO but AI misses it

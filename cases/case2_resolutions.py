@@ -1,6 +1,6 @@
 from z3 import *
 
-# --- Resolution 1: Prioritarian ---
+# NOTE - Resolution 1: Prioritarian
 s = Solver()
 
 # Variables for a two patient one team scenario
@@ -36,8 +36,8 @@ else:
     print("UNSAT")
 
 
-# --- Resolution 2: Utilitarian ---
-#  Utilitarianism uses benefit instead of vulnerability
+# NOTE - Resolution 2: Utilitarian
+# Utilitarianism uses benefit instead of vulnerability
 s2 = Solver()
 
 # Utilitarian variables

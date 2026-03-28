@@ -9,7 +9,7 @@ Authorised = Bool("Authorised")  # clinician authorised
 Reviewed = Bool("Reviewed")  # clinician reviewed the diagnostic image
 System_Failure = Bool('System_Failure')  # system or infrastructure failure
 
-# Ethical duties
+# NOTE - Ethical duties
 # if a patient is flagged as suspected LVO an alert must be generated: ∀x(SuspectedLVO(x) → ∃c(Authorized(c) ∧ Alerted(c,x))))
 s.assert_and_track(
     Implies(Suspected_LVO, And(Authorised, Alerted)),

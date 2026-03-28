@@ -8,7 +8,7 @@ LVO_B = Bool("Suspected_LVO_B")
 Escalate_A = Bool("Escalate_A")
 Escalate_B = Bool("Escalate_B")
 
-# if a patient is flagged as a suspected LVO case, A must be escalated : LVO_A → Escalate_A
+# NOTE - if a patient is flagged as a suspected LVO case, they must be escalated : LVO_A --> Escalate_A
 s.assert_and_track(Implies(LVO_A, Escalate_A), "Duty_Escalate_A")
 s.assert_and_track(Implies(LVO_B, Escalate_B), "Duty_Escalate_B")
 

@@ -12,7 +12,7 @@ s = Solver()
 # An alert is generated at time 0
 s.add(Alerted[0] == True)
 
-# Must be reviewed at some point: G(Alerted(x) → F(Reviewed(x)))
+# NOTE - Must be reviewed at some point: G(Alerted(x) → F(Reviewed(x)))
 s.add(Or([Reviewed[t] for t in range(T)]))
 
 # Clinician cannot review if overloaded

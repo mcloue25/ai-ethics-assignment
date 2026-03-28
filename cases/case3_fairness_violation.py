@@ -20,7 +20,7 @@ s.add(LVO_B == True)
 s.add(RepresentedInTraining_A == True)
 s.add(RepresentedInTraining_B == False)
 
-# Detection depends on representation in training data
+# NOTE - Detection depends on representation in training data
 s.add(Implies(And(LVO_A, RepresentedInTraining_A), Detected_A))
 s.add(Implies(LVO_B, Not(RepresentedInTraining_B)), Not(Detected_B))
 

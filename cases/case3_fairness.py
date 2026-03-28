@@ -14,7 +14,7 @@ s.add(Eligible_A == True)
 s.add(Eligible_B == True)
 s.add(Clinically_Similar == True)
 
-# If two patients are clinically similar and equally eligible neither should be given priority over 
+# NOTE - If two patients are clinically similar and equally eligible neither should be given priority over 
 # the other: (Eligible(x) ∧ Eligible(y) ∧ ClinicallySimilar(x,y)) → (¬Priority(x,y) ∧ ¬Priority(y,x)))
 s.add(Implies(And(Eligible_A, Eligible_B, Clinically_Similar), And(Not(Priority_A_over_B), Not(Priority_B_over_A))))
 
