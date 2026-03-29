@@ -36,10 +36,8 @@ Each case models an ethical requirement and demonstrates:
   Unsatisfiable case where alerts are never reviewed because clinician is overloaded.
 
 ### Case 5: Model Uncertainty
-- `cases/case5_model_uncertainty.py`
-  
-  Unsatisfiable case where a false negative causes the AI to miss a true LVO, delaying escalation
-and violating the duty to escalate.
+- `cases/case5_model_uncertainty.py`  
+  Unsatisfiable case where a false negative causes the AI to miss a true LVO, delaying escalation and violating the duty to escalate.
 
 ## Installation
 
