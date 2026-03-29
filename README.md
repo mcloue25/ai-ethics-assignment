@@ -1,7 +1,7 @@
 # AI-Ethics-Assignment
 This repository contains code developed for the AI Ethics assignment. In it we implement ethical scenarios for an AI assisted stroke triage system (Viz LVO) using the Z3 constraint solver.
 
-Each case models an ethical requirement and demonstrates both:
+Each case models an ethical requirement and demonstrates:
 - satisfiable (SAT) scenarios where ethical constraints are met
 - unsatisfiable (UNSAT) scenarios where constraints are violated or conflict
 
@@ -34,6 +34,12 @@ Each case models an ethical requirement and demonstrates both:
 
 - `cases/case4_temporal_violation.py`  
   Unsatisfiable case where alerts are never reviewed because clinician is overloaded.
+
+### Case 5: Model Uncertainty
+- `cases/case5_model_uncertainty.py`
+  
+  Unsatisfiable case where a false negative causes the AI to miss a true LVO, delaying escalation
+and violating the duty to escalate.
 
 ## Installation
 
@@ -68,6 +74,7 @@ python cases/case4_temporal_review.py
 python cases/case4_temporal_violation.py
 ```
 
-
-## Expected Outputs
-ToDo - Add results here
+### Case 5:
+```bash
+python cases/case5_model_uncertainty.py
+```
